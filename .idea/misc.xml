@@ -7,10 +7,14 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/drawable/transparent_react.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/current_weather.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/daily_weather.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/deatails_weather.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/fragment_add_city.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/fragment_choose_city.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/fragment_weather.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/hourly_weather.xml" value="0.5" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/item_daily_weather.xml" value="0.67" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/item_hourly_weather.xml" value="0.5" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/toolbar.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/weather_activity.xml" value="0.33" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/menu/bottom_menu.xml" value="0.29739583333333336" />

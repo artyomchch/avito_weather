@@ -53,20 +53,25 @@
                 layout="@layout/current_weather" />
 
             <include
+                android:id="@+id/include_hourly_weather"
+                layout="@layout/hourly_weather" />
+
+            <include
+                android:id="@+id/include_daily_weather"
+                layout="@layout/daily_weather" />
+
+
+            <include
                 android:id="@+id/include_details_weather"
-                layout="@layout/deatails_weather" />
+                layout="@layout/details_weather" />
 
             <include
                 android:id="@+id/include_details_weather1"
-                layout="@layout/deatails_weather" />
+                layout="@layout/details_weather" />
 
             <include
                 android:id="@+id/include_details_weather2"
-                layout="@layout/deatails_weather" />
-
-            <include
-                android:id="@+id/include_details_weather3"
-                layout="@layout/deatails_weather" />
+                layout="@layout/details_weather" />
 
 
         </LinearLayout>

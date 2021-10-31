@@ -26,5 +26,11 @@
     <string name="add">Add</string>
     <string name="choose">Choose</string>
     <string name="moscow">Moscow</string>
+    <string name="hourly_forecast">HOURLY FORECAST</string>
+    <string name="_22_00">22:00</string>
+    <string name="hourly_image">Hourly image</string>
+    <string name="daily_forecast">DAILY FORECAST</string>
+    <string name="nov_1">Nov 1</string>
+    <string name="today">Today</string>
 
 </resources>

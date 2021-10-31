@@ -16,6 +16,7 @@ class WeatherFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("FragmentWeatherBinding == null")
 
     private lateinit var hourlyListAdapter: HourlyListAdapter
+    private lateinit var dailyListAdapter: DailyListAdapter
     private lateinit var viewModel: WeatherFragmentViewModel
 
 
@@ -30,6 +31,10 @@ class WeatherFragment : Fragment() {
             hourlyListAdapter.submitList(it)
         }
 
+        viewModel.dailyItems.observe(viewLifecycleOwner) {
+            dailyListAdapter.submitList(it)
+        }
+
         setupRecyclerView()
 
         return binding.root
@@ -37,7 +42,9 @@ class WeatherFragment : Fragment() {
 
     private fun setupRecyclerView() {
         hourlyListAdapter = HourlyListAdapter()
+        dailyListAdapter = DailyListAdapter()
         binding.includeHourlyWeather.hourlyRecycler.adapter = hourlyListAdapter
+        binding.includeDailyWeather.dailyRecycler.adapter = dailyListAdapter
     }
 
     override fun onDestroyView() {

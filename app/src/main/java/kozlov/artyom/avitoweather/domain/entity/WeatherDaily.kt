@@ -4,5 +4,5 @@ data class WeatherDaily(
     val day: Int,
     val image: String,
     val temp: Double,
-    val description: String
+    val date: String
 )

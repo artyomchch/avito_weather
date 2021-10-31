@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Avito weather</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+
+    //Navigation
+    <string name="weather">Weather</string>
+    <string name="add_location">Add location</string>
+    <string name="current_city">Current city</string>
+    <string name="choose_city">Choose city</string>
+    <string name="add_city">Add city</string>
+
+    // Details
+    <string name="details">DETAILS</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="wind_speed">Wind speed</string>
+    <string name="pressure">Pressure</string>
+    <string name="sunset">Sunset</string>
+    <string name="humidity">Humidity</string>
+    <string name="uv">UV</string>
+    <string name="current_temperature">7°</string>
+    <string name="update_in_23_00">Update in 23:00</string>
+    <string name="description_current_weather">Clear</string>
+    <string name="feel_like">Feel like</string>
+
+</resources>

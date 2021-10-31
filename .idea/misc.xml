@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/drawable/ic_baseline_location_on_24_purple.xml" value="0.33229166666666665" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/current_weather.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/deatails_weather.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/fragment_add_city.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/fragment_choose_city.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/fragment_weather.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/toolbar.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/layout/weather_activity.xml" value="0.18478260869565216" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Avitoweather/app/src/main/res/menu/weather_info_menu.xml" value="0.31614583333333335" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

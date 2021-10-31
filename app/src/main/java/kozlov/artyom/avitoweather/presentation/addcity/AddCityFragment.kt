@@ -22,7 +22,7 @@ class AddCityFragment : Fragment() {
         _binding = FragmentAddCityBinding.inflate(inflater, container, false)
 
         setupToolbar()
-        setupNavigation()
+
 
         return binding.root
     }
@@ -30,23 +30,10 @@ class AddCityFragment : Fragment() {
     private fun setupToolbar() {
         with(binding.mainFragmentToolbar) {
             toolbarText.text = getString(R.string.add_city)
-            imageCheckCity.setImageResource(R.drawable.ic_baseline_arrow_back_24)
-            imageAddCity.setImageResource(R.drawable.ic_baseline_add_location_24_purple)
         }
     }
 
-    private fun setupNavigation() {
-        with(binding.mainFragmentToolbar) {
-            with(findNavController()) {
-                imageCheckCity.setOnClickListener {
-                    navigate(R.id.action_addCityFragment_to_weatherFragment)
-                }
-                imageChooseCity.setOnClickListener {
-                    navigate(R.id.action_addCityFragment_to_chooseCityFragment)
-                }
-            }
-        }
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -23,24 +23,11 @@ class WeatherFragment : Fragment() {
     ): View {
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
 
-        setupNavigation()
 
         return binding.root
     }
 
-    private fun setupNavigation() {
-        with(binding.mainFragmentToolbar) {
-            with(findNavController()) {
-                imageAddCity.setOnClickListener {
-                    navigate(R.id.action_weatherFragment_to_addCityFragment)
-                }
-                imageChooseCity.setOnClickListener {
-                    navigate(R.id.action_weatherFragment_to_chooseCityFragment)
-                }
 
-            }
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

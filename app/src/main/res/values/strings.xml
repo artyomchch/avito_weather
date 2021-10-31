@@ -22,5 +22,9 @@
     <string name="update_in_23_00">Update in 23:00</string>
     <string name="description_current_weather">Clear</string>
     <string name="feel_like">Feel like</string>
+    <string name="current">Current</string>
+    <string name="add">Add</string>
+    <string name="choose">Choose</string>
+    <string name="moscow">Moscow</string>
 
 </resources>

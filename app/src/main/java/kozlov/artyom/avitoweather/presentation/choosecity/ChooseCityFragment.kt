@@ -21,7 +21,7 @@ class ChooseCityFragment : Fragment() {
     ): View {
         _binding = FragmentChooseCityBinding.inflate(inflater, container, false)
         setupToolbar()
-        setupNavigation()
+
 
         return binding.root
     }
@@ -29,23 +29,10 @@ class ChooseCityFragment : Fragment() {
     private fun setupToolbar() {
         with(binding.mainFragmentToolbar) {
             toolbarText.text = getString(R.string.choose_city)
-            imageCheckCity.setImageResource(R.drawable.ic_baseline_arrow_back_24)
-            imageChooseCity.setImageResource(R.drawable.ic_baseline_menu_24_purple)
         }
     }
 
-    private fun setupNavigation() {
-        with(binding.mainFragmentToolbar) {
-            with(findNavController()) {
-                imageCheckCity.setOnClickListener {
-                    navigate(R.id.action_chooseCityFragment_to_weatherFragment)
-                }
-                imageAddCity.setOnClickListener {
-                    navigate(R.id.action_chooseCityFragment_to_addCityFragment)
-                }
-            }
-        }
-    }
+
 
 
     override fun onDestroyView() {

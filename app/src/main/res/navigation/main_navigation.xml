@@ -1,58 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/weatherFragment">
+    app:startDestination="@id/current_navigation_fragment">
 
-    <fragment
-        android:id="@+id/weatherFragment"
-        android:name="kozlov.artyom.avitoweather.presentation.weather.WeatherFragment"
-        android:label="fragment_weather"
-        tools:layout="@layout/fragment_weather" >
-        <action
-            android:id="@+id/action_weatherFragment_to_addCityFragment"
-            app:destination="@id/addCityFragment"
-            app:popUpTo="@id/addCityFragment" />
-        <action
-            android:id="@+id/action_weatherFragment_to_chooseCityFragment"
-            app:destination="@id/chooseCityFragment"
-            app:launchSingleTop="false"
-            app:popUpTo="@id/chooseCityFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/chooseCityFragment"
-        android:name="kozlov.artyom.avitoweather.presentation.choosecity.ChooseCityFragment"
-        android:label="fragment_choose_city"
-        tools:layout="@layout/fragment_choose_city" >
-        <action
-            android:id="@+id/action_chooseCityFragment_to_weatherFragment"
-            app:destination="@id/weatherFragment"
-            app:popUpTo="@id/weatherFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_chooseCityFragment_to_addCityFragment"
-            app:destination="@id/addCityFragment"
-            app:launchSingleTop="false"
-            app:popUpTo="@id/addCityFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/addCityFragment"
-        android:name="kozlov.artyom.avitoweather.presentation.addcity.AddCityFragment"
-        android:label="fragment_add_city"
-        tools:layout="@layout/fragment_add_city" >
-        <action
-            android:id="@+id/action_addCityFragment_to_weatherFragment"
-            app:destination="@id/weatherFragment"
-            app:popUpTo="@id/addCityFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_addCityFragment_to_chooseCityFragment"
-            app:destination="@id/chooseCityFragment"
-            app:launchSingleTop="false"
-            app:popUpTo="@id/chooseCityFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+
+    <include app:graph="@navigation/add_navigation_fragment" />
+    <include app:graph="@navigation/menu_navigation_fragment" />
+    <include app:graph="@navigation/current_navigation_fragment" />
+
+
 </navigation>

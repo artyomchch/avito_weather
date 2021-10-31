@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/current_navigation_fragment"
+        android:icon="@drawable/ic_baseline_cloud_24"
+        android:title="@string/weather" />
+    <item
+        android:id="@+id/add_navigation_fragment"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="@string/add" />
+    <item
+        android:id="@+id/menu_navigation_fragment"
+        android:icon="@drawable/ic_baseline_menu_24"
+        android:title="@string/choose" />
+
+</menu>

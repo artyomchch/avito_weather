@@ -10,9 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        app:cardElevation="0dp"
         app:cardBackgroundColor="@color/white_transparency_harder"
         app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -137,10 +137,9 @@
                 android:text="@string/wind_speed"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pressure"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pressure" />
 
             <TextView
                 android:id="@+id/uv"

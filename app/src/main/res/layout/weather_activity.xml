@@ -2,11 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/weather"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".WeatherActivity">
 
+    <ImageView
+        android:id="@+id/center_crop_background_image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/weather"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/background_image" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"

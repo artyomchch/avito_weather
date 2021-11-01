@@ -16,6 +16,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/update_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_22_00"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@+id/update_date"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/temperature"
@@ -27,6 +36,18 @@
         android:textColor="@color/black"
         android:textSize="@dimen/temperature_view_size"
         app:layout_constraintLeft_toLeftOf="@id/update_date"
+        app:layout_constraintTop_toBottomOf="@id/update_date" />
+
+    <TextView
+        android:id="@+id/temperature_celsius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:includeFontPadding="false"
+        android:text="@string/celsius"
+        android:textColor="@color/black"
+        android:textSize="@dimen/temperature_view_size"
+        app:layout_constraintLeft_toRightOf="@+id/temperature"
         app:layout_constraintTop_toBottomOf="@id/update_date" />
 
     <TextView
@@ -60,6 +81,18 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/feel_like"
         app:layout_constraintTop_toBottomOf="@+id/feel_like"
+        />
+
+    <TextView
+        android:id="@+id/feel_like_celsius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/celsius"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/feel_like_value"
+        app:layout_constraintTop_toBottomOf="@+id/feel_like"
+
 
         />
 

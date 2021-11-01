@@ -35,16 +35,49 @@ class WeatherFragment : Fragment() {
             dailyListAdapter.submitList(it)
         }
 
+
+        setupDetailsView()
         setupRecyclerView()
+        setupCurrentView()
 
         return binding.root
+    }
+
+    private fun setupDetailsView(){
+        viewModel.detailsItem.observe(viewLifecycleOwner){
+            with(binding.includeDetailsWeather){
+                sunriseValue.text = it.sunrise
+                sunsetValue.text = it.sunset
+                pressureValue.text = it.pressure.toString()
+                humidityValue.text = it.humidity.toString()
+                uvValue.text = it.uv.toString()
+                windSpeedValue.text = it.wind_speed.toString()
+            }
+        }
+    }
+
+    private fun setupCurrentView(){
+        viewModel.currentItem.observe(viewLifecycleOwner){
+            with(binding.includeCurrentWeather){
+                temperature.text = it.temp.toString()
+                feelLikeValue.text = it.feelLike.toString()
+                descriptionCurrentWeather.text = it.description
+                updateTime.text = it.time
+            }
+        }
     }
 
     private fun setupRecyclerView() {
         hourlyListAdapter = HourlyListAdapter()
         dailyListAdapter = DailyListAdapter()
-        binding.includeHourlyWeather.hourlyRecycler.adapter = hourlyListAdapter
-        binding.includeDailyWeather.dailyRecycler.adapter = dailyListAdapter
+        with(binding.includeHourlyWeather.hourlyRecycler){
+            adapter = hourlyListAdapter
+            isNestedScrollingEnabled = false
+        }
+        with(binding.includeDailyWeather.dailyRecycler){
+            adapter = dailyListAdapter
+            isNestedScrollingEnabled = false
+        }
     }
 
     override fun onDestroyView() {

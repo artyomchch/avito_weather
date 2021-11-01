@@ -28,6 +28,7 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                app:layout_collapseMode="pin"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways" />
@@ -41,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
+        android:layout_alignParentTop="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -65,13 +67,6 @@
                 android:id="@+id/include_details_weather"
                 layout="@layout/details_weather" />
 
-            <include
-                android:id="@+id/include_details_weather1"
-                layout="@layout/details_weather" />
-
-            <include
-                android:id="@+id/include_details_weather2"
-                layout="@layout/details_weather" />
 
 
         </LinearLayout>

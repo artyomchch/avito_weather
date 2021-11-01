@@ -1,8 +1,8 @@
 package kozlov.artyom.avitoweather.domain.entity
 
 data class WeatherDaily(
-    val day: Int,
+    val day: String,
+    val description: String,
     val image: String,
-    val temp: Double,
-    val date: String
+    val temp: Double
 )

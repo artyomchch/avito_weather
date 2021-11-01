@@ -1,7 +1,7 @@
 package kozlov.artyom.avitoweather.domain.entity
 
 data class WeatherHourly(
-    val hour: Int,
+    val hour: String,
     val picture: String,
     val temp: Double
 )

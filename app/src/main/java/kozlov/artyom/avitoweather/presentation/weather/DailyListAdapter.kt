@@ -15,8 +15,8 @@ class DailyListAdapter : ListAdapter<WeatherDaily, DailyItemViewHolder>(DailyIte
 
     override fun onBindViewHolder(viewHolder: DailyItemViewHolder, position: Int) {
         val dailyItem = getItem(position)
-        viewHolder.dailyDay.text = dailyItem.day.toString()
-        viewHolder.dailyDate.text = dailyItem.date
+        viewHolder.dailyDay.text = dailyItem.day
+        viewHolder.dailyDescription.text = dailyItem.description
         Glide.with(viewHolder.itemView)
             .load(dailyItem.image)
             .centerCrop()

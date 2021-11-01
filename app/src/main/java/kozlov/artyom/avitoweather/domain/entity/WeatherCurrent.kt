@@ -5,5 +5,5 @@ data class WeatherCurrent(
     val temp: Double,
     val description: String,
     val feelLike: Double,
-    val date: Int,
+    val time: String,
 )

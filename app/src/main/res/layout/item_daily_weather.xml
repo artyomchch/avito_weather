@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
@@ -30,11 +30,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/daily_date_text"
+                android:id="@+id/daily_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:lines="2"
                 android:layout_marginTop="5dp"
-                android:text="@string/nov_1"
+                android:text="@string/cloudy"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/daily_day" />
@@ -43,20 +45,25 @@
                 android:id="@+id/daily_image"
                 android:layout_width="20pt"
                 android:layout_height="20pt"
-                android:layout_marginTop="5dp"
                 android:contentDescription="@string/hourly_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/daily_date_text" />
+                app:layout_constraintTop_toBottomOf="@+id/daily_description" />
 
             <TextView
-                android:id="@+id/hourly_temp"
+                android:id="@+id/daily_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:text="@string/current_temperature"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/daily_image" />
+            <TextView
+                android:id="@+id/daily_celsius"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/celsius"
+                app:layout_constraintStart_toEndOf="@id/daily_temp"
                 app:layout_constraintTop_toBottomOf="@+id/daily_image" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

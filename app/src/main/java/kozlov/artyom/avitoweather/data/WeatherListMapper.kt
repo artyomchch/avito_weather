@@ -11,6 +11,7 @@ import kozlov.artyom.avitoweather.domain.entity.WeatherDetails
 import kozlov.artyom.avitoweather.domain.entity.WeatherHourly
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 class WeatherListMapper {
 
@@ -20,7 +21,7 @@ class WeatherListMapper {
     private fun mapNetworkModelToEntityHourly(hourly: Hourly) = WeatherHourly(
         hour = getTime(hourly.dt),
         picture = PICTURE_URL + hourly.weather[0].icon + PICTURE_TYPE,
-        temp = hourly.temp
+        temp = roundOffDecimal(hourly.temp)
     )
 
     fun mapListNetworkModelToListEntityHourly(list: List<Hourly>) = list.map {
@@ -31,7 +32,7 @@ class WeatherListMapper {
         day = getDate(daily.dt).take(6),
         description = daily.weather[0].description.replace(' ', '\n'),
         image = PICTURE_URL + daily.weather[0].icon + PICTURE_TYPE,
-        temp = daily.temp.day
+        temp = roundOffDecimal(daily.temp.day)
     )
 
     fun mapListNetworkModelToListEntityDaily(list: List<Daily>) = list.map {
@@ -50,14 +51,11 @@ class WeatherListMapper {
 
     fun mapNetworkModelToEntityCurrent(current: Current) = WeatherCurrent(
         city = "Moscow",
-        temp = current.temp,
+        temp = roundOffDecimal(current.temp),
         description = current.weather[0].description,
-        feelLike = current.feels_like,
+        feelLike = roundOffDecimal(current.feels_like),
         time = getTime(current.dt)
     )
-
-
-
 
 
     private fun getTime(timestamp: Int): String {
@@ -68,6 +66,10 @@ class WeatherListMapper {
     private fun getDate(timestamp: Int): String {
         dateFormat.timeZone = TimeZone.getTimeZone("GMT+3:00")
         return dateFormat.format(timestamp * 1000L)
+    }
+
+    private fun roundOffDecimal(number: Double): Int {
+        return number.roundToInt()
     }
 
 

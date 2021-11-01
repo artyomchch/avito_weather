@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="temperature_view_size">35pt</dimen>
+    <dimen name="city_view_size">30sp</dimen>
     <dimen name="description_current_weather_size">20sp</dimen>
 </resources>

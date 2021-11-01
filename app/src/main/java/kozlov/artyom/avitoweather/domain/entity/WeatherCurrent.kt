@@ -2,8 +2,8 @@ package kozlov.artyom.avitoweather.domain.entity
 
 data class WeatherCurrent(
     val city: String,
-    val temp: Double,
+    val temp: Int,
     val description: String,
-    val feelLike: Double,
+    val feelLike: Int,
     val time: String,
 )

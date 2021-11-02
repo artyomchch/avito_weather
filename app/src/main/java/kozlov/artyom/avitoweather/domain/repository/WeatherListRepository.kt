@@ -1,9 +1,8 @@
 package kozlov.artyom.avitoweather.domain.repository
 
-import kozlov.artyom.avitoweather.domain.entity.WeatherCurrent
-import kozlov.artyom.avitoweather.domain.entity.WeatherDaily
-import kozlov.artyom.avitoweather.domain.entity.WeatherDetails
-import kozlov.artyom.avitoweather.domain.entity.WeatherHourly
+import androidx.lifecycle.LiveData
+import kozlov.artyom.avitoweather.data.network.pojo.Coord
+import kozlov.artyom.avitoweather.domain.entity.*
 
 interface WeatherListRepository {
 
@@ -14,4 +13,16 @@ interface WeatherListRepository {
     suspend fun getWeatherDetails(): WeatherDetails
 
     suspend fun getWeatherCurrent(): WeatherCurrent
+
+    suspend fun getCoordinatesCity(city: String): Coord
+
+    suspend fun editCityItem(cityItem: CityItem)
+
+    suspend fun addCityItem(cityItem: CityItem)
+
+    suspend fun getCityItem(cityItemId: Int): CityItem
+
+    suspend fun deleteCityItem(cityItem: CityItem)
+
+    fun getCityList(): LiveData<List<CityItem>>
 }

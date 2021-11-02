@@ -10,14 +10,14 @@ import androidx.room.Query
 interface CityListDao {
 
     @Query("SELECT * FROM city_items")
-    fun getCarList(): LiveData<List<CityItemDbModel>>
+    fun getCityList(): LiveData<List<CityItemDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addCarItem(cityItemDbModel: CityItemDbModel)
+    suspend fun addCityItem(cityItemDbModel: CityItemDbModel)
 
     @Query("DELETE FROM city_items WHERE id=:cityItemId")
-    suspend fun deleteCarItem(cityItemId: Int)
+    suspend fun deleteCityItem(cityItemId: Int)
 
     @Query("SELECT * FROM city_items WHERE id=:cityItemId LIMIT 1")
-    suspend fun getCarItem(cityItemId: Int): CityItemDbModel
+    suspend fun getCityItem(cityItemId: Int): CityItemDbModel
 }

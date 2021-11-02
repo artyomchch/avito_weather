@@ -4,6 +4,10 @@ import androidx.lifecycle.LiveData
 import kozlov.artyom.avitoweather.domain.entity.CityItem
 import kozlov.artyom.avitoweather.domain.repository.WeatherListRepository
 
-class GetCityUseCase (private val weatherListRepository: WeatherListRepository) {
-    operator fun invoke(): LiveData<List<CityItem>> = weatherListRepository.getCityList()
+class EditCityItemUseCase(private val weatherListRepository: WeatherListRepository) {
+
+    suspend operator fun invoke(cityItemId: CityItem){
+        weatherListRepository.editCityItem(cityItemId)
+    }
+
 }

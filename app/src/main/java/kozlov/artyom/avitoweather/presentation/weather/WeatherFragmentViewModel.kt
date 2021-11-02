@@ -1,9 +1,7 @@
 package kozlov.artyom.avitoweather.presentation.weather
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import kozlov.artyom.avitoweather.data.WeatherListRepositoryImpl
 import kozlov.artyom.avitoweather.domain.entity.WeatherCurrent
@@ -15,9 +13,9 @@ import kozlov.artyom.avitoweather.domain.usecases.GetWeatherDailyUseCase
 import kozlov.artyom.avitoweather.domain.usecases.GetWeatherDetailsUseCase
 import kozlov.artyom.avitoweather.domain.usecases.GetWeatherHourlyUseCase
 
-class WeatherFragmentViewModel : ViewModel() {
+class WeatherFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = WeatherListRepositoryImpl
+    private val repository = WeatherListRepositoryImpl(application)
     private val getWeatherHourlyUseCase = GetWeatherHourlyUseCase(repository)
     private val getWeatherDailyUseCase = GetWeatherDailyUseCase(repository)
     private val getWeatherDetailsUseCase = GetWeatherDetailsUseCase(repository)

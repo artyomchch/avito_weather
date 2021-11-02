@@ -36,7 +36,11 @@
     <string name="today">Today</string>
     <string name="background_image">background image</string>
     <string name="celsius">°</string>
-
+    <string name="input_city">Input city</string>
+    <string name="save">save</string>
+    <string name="entry_description">Enter a city or click on the auto-detect button</string>
+    <string name="get_current_location">get_current_location</string>
+    <string name="invalid_name">Invalid name</string>
 
 
 </resources>

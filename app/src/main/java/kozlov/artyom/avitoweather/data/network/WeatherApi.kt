@@ -1,5 +1,7 @@
 package kozlov.artyom.avitoweather.data.network
 
+import kozlov.artyom.avitoweather.data.network.pojo.Coordinates
+import kozlov.artyom.avitoweather.data.network.pojo.WeatherCity
 import kozlov.artyom.avitoweather.data.network.pojo.WeatherNetwork
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -15,6 +17,11 @@ interface WeatherApi {
         @Query(QUERY_PARAM_LANG) lang: String = LANG,
     ): WeatherNetwork
 
+    @GET("weather")
+    suspend fun getCoordinates(
+        @Query(QUERY_PARAM_API_KEY) apiKey: String = API_KEY,
+        @Query(QUERY_PARAM_CITY) city: String = CITY
+    ): WeatherCity
 
     companion object {
         private const val QUERY_PARAM_API_KEY = "appid"
@@ -22,6 +29,8 @@ interface WeatherApi {
         private const val QUERY_PARAM_LON = "lon"
         private const val QUERY_PARAM_UNIT = "units"
         private const val QUERY_PARAM_LANG = "lang"
+        private const val QUERY_PARAM_CITY = "q"
+
 
 
 
@@ -30,6 +39,7 @@ interface WeatherApi {
         private const val LON = "37.62"
         private const val UNIT = "metric"
         private const val LANG = "en"
+        private const val CITY = "moscow"
 
     }
 }

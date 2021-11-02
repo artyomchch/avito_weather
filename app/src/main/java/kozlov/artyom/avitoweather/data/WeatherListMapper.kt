@@ -1,14 +1,12 @@
 package kozlov.artyom.avitoweather.data
 
+import kozlov.artyom.avitoweather.data.database.CityItemDbModel
 import kozlov.artyom.avitoweather.data.network.Constants.PICTURE_TYPE
 import kozlov.artyom.avitoweather.data.network.Constants.PICTURE_URL
 import kozlov.artyom.avitoweather.data.network.pojo.Current
 import kozlov.artyom.avitoweather.data.network.pojo.Daily
 import kozlov.artyom.avitoweather.data.network.pojo.Hourly
-import kozlov.artyom.avitoweather.domain.entity.WeatherCurrent
-import kozlov.artyom.avitoweather.domain.entity.WeatherDaily
-import kozlov.artyom.avitoweather.domain.entity.WeatherDetails
-import kozlov.artyom.avitoweather.domain.entity.WeatherHourly
+import kozlov.artyom.avitoweather.domain.entity.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -56,6 +54,27 @@ class WeatherListMapper {
         feelLike = roundOffDecimal(current.feels_like),
         time = getTime(current.dt)
     )
+
+
+    fun mapEntityToDbModel(cityItem: CityItem) = CityItemDbModel(
+        id = cityItem.id,
+        name = cityItem.name,
+        latitude = cityItem.latitude,
+        longitude = cityItem.longitude,
+        enable = cityItem.enable
+    )
+
+    fun mapDbModelToEntity(cityItemDbModel: CityItemDbModel) = CityItem(
+        id = cityItemDbModel.id,
+        name = cityItemDbModel.name,
+        latitude = cityItemDbModel.latitude,
+        longitude = cityItemDbModel.longitude,
+        enable = cityItemDbModel.enable
+    )
+
+    fun mapListDbModelToListEntity(list: List<CityItemDbModel>) = list.map {
+        mapDbModelToEntity(it)
+    }
 
 
     private fun getTime(timestamp: Int): String {

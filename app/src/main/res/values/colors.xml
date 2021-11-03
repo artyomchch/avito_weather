@@ -11,5 +11,6 @@
     <color name="white_transparency">#33F3F3F3</color>
     <color name="white_transparency_harder">#B3F3F3F3</color>
     <color name="transparency">#00FFFFFF</color>
+    <color name="color_enable_item_city">#B38B36F3</color>
 
 </resources>

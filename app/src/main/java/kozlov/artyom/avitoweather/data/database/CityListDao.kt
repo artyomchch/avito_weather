@@ -18,6 +18,9 @@ interface CityListDao {
     @Query("DELETE FROM city_items WHERE id=:cityItemId")
     suspend fun deleteCityItem(cityItemId: Int)
 
-    @Query("SELECT * FROM city_items WHERE id=:cityItemId LIMIT 1")
-    suspend fun getCityItem(cityItemId: Int): CityItemDbModel
+    @Query("SELECT * FROM city_items WHERE enable=:enable LIMIT 1")
+    suspend fun getCityItem(enable: Int): CityItemDbModel
+
+    @Query("UPDATE city_items SET enable= :disable WHERE enable= :enable")
+    suspend fun resetEnable(disable: Int, enable: Int)
 }

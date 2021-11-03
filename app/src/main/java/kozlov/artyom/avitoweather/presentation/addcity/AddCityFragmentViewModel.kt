@@ -12,6 +12,7 @@ import kozlov.artyom.avitoweather.data.WeatherListRepositoryImpl
 import kozlov.artyom.avitoweather.domain.entity.CityItem
 import kozlov.artyom.avitoweather.domain.usecases.AddCityItemUseCase
 import kozlov.artyom.avitoweather.domain.usecases.GetCoordinatesCityUseCase
+import kozlov.artyom.avitoweather.domain.usecases.ResetStateCityUseCase
 import java.io.IOException
 import java.util.*
 
@@ -24,6 +25,7 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
     private val repository = WeatherListRepositoryImpl(application)
     private val addCityItemUseCase = AddCityItemUseCase(repository)
     private val getCoordinatesCityUseCase = GetCoordinatesCityUseCase(repository)
+    private val resetStateCityUseCase = ResetStateCityUseCase(repository)
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>
@@ -38,6 +40,7 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
         val fieldsValid = validateInput(name)
         if (fieldsValid) {
             viewModelScope.launch {
+                resetStateCityUseCase.invoke()
                 val coordinates = getCoordinatesCityUseCase.invoke(name)
                 val carItem = CityItem(name, coordinates.lat, coordinates.lon, true)
                 addCityItemUseCase(carItem)
@@ -78,7 +81,7 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
 
     fun getGeolocation() {
         viewModelScope.launch {
-
+            resetStateCityUseCase.invoke()
             val carItem = CityItem(getNameCityFromCoordinates(lat, lng), lat, lng, true)
             addCityItemUseCase(carItem)
             //finnish

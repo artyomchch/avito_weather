@@ -47,8 +47,8 @@ class WeatherListMapper {
     )
 
 
-    fun mapNetworkModelToEntityCurrent(current: Current) = WeatherCurrent(
-        city = "Moscow",
+    fun mapNetworkModelToEntityCurrent(current: Current, city: String) = WeatherCurrent(
+        city = city,
         temp = roundOffDecimal(current.temp),
         description = current.weather[0].description,
         feelLike = roundOffDecimal(current.feels_like),

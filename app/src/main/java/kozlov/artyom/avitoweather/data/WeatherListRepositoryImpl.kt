@@ -1,21 +1,14 @@
 package kozlov.artyom.avitoweather.data
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kozlov.artyom.avitoweather.data.database.AppDatabase
 import kozlov.artyom.avitoweather.data.network.RetrofitInstance
 import kozlov.artyom.avitoweather.data.network.pojo.Coord
-import kozlov.artyom.avitoweather.data.network.pojo.Coordinates
 import kozlov.artyom.avitoweather.data.network.pojo.WeatherNetwork
 import kozlov.artyom.avitoweather.domain.entity.*
 import kozlov.artyom.avitoweather.domain.repository.WeatherListRepository
-import kotlin.coroutines.suspendCoroutine
-import kotlin.math.log
 
 class WeatherListRepositoryImpl(application: Application) : WeatherListRepository {
 
@@ -24,28 +17,27 @@ class WeatherListRepositoryImpl(application: Application) : WeatherListRepositor
     private val mapper = WeatherListMapper()
     private val cityListDao = AppDatabase.getInstance(application).carListDao()
 
-    init {
-        CoroutineScope(Job()).launch {
-            Log.d("TAG", "getCoordinatesCity: ${retrofit.getCoordinates(city = "Moscow").coord}")
-        }
+
+    override suspend fun getWeather(latitude: Double, longitude: Double): List<WeatherNetwork> {
+        weatherInformation = listOf(retrofit.getPost(lat = latitude, lon = longitude))
+        return weatherInformation
     }
 
 
-    override suspend fun getWeatherHourly(): List<WeatherHourly> {
-        weatherInformation = listOf(retrofit.getPost())
+    override fun getWeatherHourly(): List<WeatherHourly> {
         return mapper.mapListNetworkModelToListEntityHourly(weatherInformation[0].hourly)
     }
 
-    override suspend fun getWeatherDaily(): List<WeatherDaily> {
+    override fun getWeatherDaily(): List<WeatherDaily> {
         return mapper.mapListNetworkModelToListEntityDaily(weatherInformation[0].daily)
     }
 
-    override suspend fun getWeatherDetails(): WeatherDetails {
+    override fun getWeatherDetails(): WeatherDetails {
         return mapper.mapNetworkModelToEntityDetails(weatherInformation[0].current)
     }
 
-    override suspend fun getWeatherCurrent(): WeatherCurrent {
-        return mapper.mapNetworkModelToEntityCurrent(weatherInformation[0].current)
+    override fun getWeatherCurrent(city: String): WeatherCurrent {
+        return mapper.mapNetworkModelToEntityCurrent(weatherInformation[0].current, city)
     }
 
     override suspend fun getCoordinatesCity(city: String): Coord {
@@ -67,6 +59,10 @@ class WeatherListRepositoryImpl(application: Application) : WeatherListRepositor
 
     override suspend fun deleteCityItem(cityItem: CityItem) {
         cityListDao.deleteCityItem(cityItem.id)
+    }
+
+    override suspend fun resetEnableCity(disable: Int, enable: Int) {
+        cityListDao.resetEnable(disable, enable)
     }
 
     override fun getCityList(): LiveData<List<CityItem>> = Transformations.map(cityListDao.getCityList()) {

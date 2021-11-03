@@ -5,5 +5,5 @@ import kozlov.artyom.avitoweather.domain.repository.WeatherListRepository
 
 class GetWeatherDetailsUseCase(private val weatherListRepository: WeatherListRepository) {
 
-    suspend operator fun invoke(): WeatherDetails = weatherListRepository.getWeatherDetails()
+    operator fun invoke(): WeatherDetails = weatherListRepository.getWeatherDetails()
 }

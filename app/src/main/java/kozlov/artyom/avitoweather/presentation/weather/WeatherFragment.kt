@@ -1,6 +1,7 @@
 package kozlov.artyom.avitoweather.presentation.weather
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,7 @@ class WeatherFragment : Fragment() {
             dailyListAdapter.submitList(it)
         }
 
-
+        setupLoadingView()
         setupDetailsView()
         setupRecyclerView()
         setupCurrentView()
@@ -43,9 +44,9 @@ class WeatherFragment : Fragment() {
         return binding.root
     }
 
-    private fun setupDetailsView(){
-        viewModel.detailsItem.observe(viewLifecycleOwner){
-            with(binding.includeDetailsWeather){
+    private fun setupDetailsView() {
+        viewModel.detailsItem.observe(viewLifecycleOwner) {
+            with(binding.includeDetailsWeather) {
                 sunriseValue.text = it.sunrise
                 sunsetValue.text = it.sunset
                 pressureValue.text = it.pressure.toString()
@@ -56,9 +57,50 @@ class WeatherFragment : Fragment() {
         }
     }
 
-    private fun setupCurrentView(){
-        viewModel.currentItem.observe(viewLifecycleOwner){
-            with(binding.includeCurrentWeather){
+    private fun setupLoadingView() {
+        viewModel.stateLoading.observe(viewLifecycleOwner) {
+            Log.d("TAG", "setupLoadingView:  $it ")
+            with(binding) {
+                if (it == true) {
+                    includeHourlyWeather.hourlyRecycler.visibility = View.INVISIBLE
+                    includeDailyWeather.dailyRecycler.visibility = View.INVISIBLE
+                    includeCurrentWeather.updateTime.visibility = View.INVISIBLE
+                    includeCurrentWeather.temperature.visibility = View.INVISIBLE
+                    includeCurrentWeather.descriptionCurrentWeather.visibility = View.INVISIBLE
+                    includeCurrentWeather.feelLikeValue.visibility = View.INVISIBLE
+                    collapsingToolbar.title = ""
+                    includeDetailsWeather.windSpeedValue.visibility = View.INVISIBLE
+                    includeDetailsWeather.humidityValue.visibility = View.INVISIBLE
+                    includeDetailsWeather.pressureValue.visibility = View.INVISIBLE
+                    includeDetailsWeather.uvValue.visibility = View.INVISIBLE
+                    includeDetailsWeather.sunsetValue.visibility = View.INVISIBLE
+                    includeDetailsWeather.sunriseValue.visibility = View.INVISIBLE
+                } else {
+                    includeHourlyWeather.hourlyRecycler.visibility = View.VISIBLE
+                    includeDailyWeather.dailyRecycler.visibility = View.VISIBLE
+                    includeCurrentWeather.updateTime.visibility = View.VISIBLE
+                    includeCurrentWeather.temperature.visibility = View.VISIBLE
+                    includeCurrentWeather.descriptionCurrentWeather.visibility = View.VISIBLE
+                    includeCurrentWeather.feelLikeValue.visibility = View.VISIBLE
+                    includeDetailsWeather.windSpeedValue.visibility = View.VISIBLE
+                    includeDetailsWeather.humidityValue.visibility = View.VISIBLE
+                    includeDetailsWeather.pressureValue.visibility = View.VISIBLE
+                    includeDetailsWeather.uvValue.visibility = View.VISIBLE
+                    includeDetailsWeather.sunsetValue.visibility = View.VISIBLE
+                    includeDetailsWeather.sunriseValue.visibility = View.VISIBLE
+                }
+            }
+
+        }
+
+
+
+    }
+
+    private fun setupCurrentView() {
+        viewModel.currentItem.observe(viewLifecycleOwner) {
+            with(binding.includeCurrentWeather) {
+                binding.collapsingToolbar.title = it.city
                 temperature.text = it.temp.toString()
                 feelLikeValue.text = it.feelLike.toString()
                 descriptionCurrentWeather.text = it.description
@@ -70,11 +112,11 @@ class WeatherFragment : Fragment() {
     private fun setupRecyclerView() {
         hourlyListAdapter = HourlyListAdapter()
         dailyListAdapter = DailyListAdapter()
-        with(binding.includeHourlyWeather.hourlyRecycler){
+        with(binding.includeHourlyWeather.hourlyRecycler) {
             adapter = hourlyListAdapter
             isNestedScrollingEnabled = false
         }
-        with(binding.includeDailyWeather.dailyRecycler){
+        with(binding.includeDailyWeather.dailyRecycler) {
             adapter = dailyListAdapter
             isNestedScrollingEnabled = false
         }

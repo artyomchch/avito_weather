@@ -9,6 +9,7 @@ import kozlov.artyom.avitoweather.domain.entity.CityItem
 import kozlov.artyom.avitoweather.domain.usecases.DeleteCityItemUseCase
 import kozlov.artyom.avitoweather.domain.usecases.EditCityItemUseCase
 import kozlov.artyom.avitoweather.domain.usecases.GetCityListUseCase
+import kozlov.artyom.avitoweather.domain.usecases.ResetStateCityUseCase
 
 class ChooseCityFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -17,11 +18,14 @@ class ChooseCityFragmentViewModel(application: Application) : AndroidViewModel(a
     private val getCityListUseCase = GetCityListUseCase(repository)
     private val deleteCityItemUseCase = DeleteCityItemUseCase(repository)
     private val editCityItemUseCase = EditCityItemUseCase(repository)
+    private val resetStateCityUseCase = ResetStateCityUseCase(repository)
 
     val cityList = getCityListUseCase.invoke()
 
     fun changeEnableState(cityItem: CityItem) {
+
         viewModelScope.launch {
+            resetStateCityUseCase.invoke()
             val newItem = cityItem.copy(enable = !cityItem.enable)
             editCityItemUseCase(newItem)
         }

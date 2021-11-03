@@ -1,25 +1,29 @@
 package kozlov.artyom.avitoweather.presentation.weather
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kozlov.artyom.avitoweather.data.WeatherListRepositoryImpl
-import kozlov.artyom.avitoweather.domain.entity.WeatherCurrent
-import kozlov.artyom.avitoweather.domain.entity.WeatherDaily
-import kozlov.artyom.avitoweather.domain.entity.WeatherDetails
-import kozlov.artyom.avitoweather.domain.entity.WeatherHourly
-import kozlov.artyom.avitoweather.domain.usecases.GetWeatherCurrentUseCase
-import kozlov.artyom.avitoweather.domain.usecases.GetWeatherDailyUseCase
-import kozlov.artyom.avitoweather.domain.usecases.GetWeatherDetailsUseCase
-import kozlov.artyom.avitoweather.domain.usecases.GetWeatherHourlyUseCase
+import kozlov.artyom.avitoweather.domain.entity.*
+import kozlov.artyom.avitoweather.domain.usecases.*
 
 class WeatherFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = WeatherListRepositoryImpl(application)
+    private val getWeatherUseCase = GetWeatherUseCase(repository)
     private val getWeatherHourlyUseCase = GetWeatherHourlyUseCase(repository)
     private val getWeatherDailyUseCase = GetWeatherDailyUseCase(repository)
     private val getWeatherDetailsUseCase = GetWeatherDetailsUseCase(repository)
     private val getWeatherCurrentUseCase = GetWeatherCurrentUseCase(repository)
+    private val getCityUseCase = GetCityItemUseCase(repository)
+
+
+    private val _itemFromDb = MutableLiveData<CityItem>()
+    val itemFromDb: LiveData<CityItem>
+        get() = _itemFromDb
 
     private val _hourlyItems = MutableLiveData<List<WeatherHourly>>()
     val hourlyItems: LiveData<List<WeatherHourly>>
@@ -37,13 +41,21 @@ class WeatherFragmentViewModel(application: Application) : AndroidViewModel(appl
     val currentItem: LiveData<WeatherCurrent>
         get() = _currentItem
 
+    private val _stateLoading = MutableLiveData<Boolean>()
+    val stateLoading: LiveData<Boolean>
+        get() = _stateLoading
+
 
     init {
         viewModelScope.launch {
+            _stateLoading.value = true
+            _itemFromDb.value = getCityUseCase.invoke(1)
+            getWeatherUseCase.invoke(_itemFromDb.value!!.latitude, _itemFromDb.value!!.longitude)
             _hourlyItems.value = getWeatherHourlyUseCase.invoke()
             _dailyItems.value = getWeatherDailyUseCase.invoke()
             _detailsItem.value = getWeatherDetailsUseCase.invoke()
-            _currentItem.value = getWeatherCurrentUseCase.invoke()
+            _currentItem.value = getWeatherCurrentUseCase.invoke(_itemFromDb.value!!.name)
+            _stateLoading.value  = false
         }
     }
 

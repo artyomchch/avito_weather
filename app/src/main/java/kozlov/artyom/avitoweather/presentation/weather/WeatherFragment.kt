@@ -1,12 +1,12 @@
 package kozlov.artyom.avitoweather.presentation.weather
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.appbar.AppBarLayout
 import kozlov.artyom.avitoweather.databinding.FragmentWeatherBinding
 
 
@@ -28,6 +28,9 @@ class WeatherFragment : Fragment() {
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[WeatherFragmentViewModel::class.java]
 
+        viewModel.invokeGetItem()
+
+
         viewModel.hourlyItems.observe(viewLifecycleOwner) {
             hourlyListAdapter.submitList(it)
         }
@@ -40,9 +43,41 @@ class WeatherFragment : Fragment() {
         setupDetailsView()
         setupRecyclerView()
         setupCurrentView()
+        setupAppBarListener()
+        swipeRefreshListener()
+        observer()
 
         return binding.root
     }
+
+
+    private fun observer() {
+        viewModel.cityItem.value
+        viewModel.cityItem.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+
+            } else {
+                viewModel.initWeather()
+            }
+        }
+
+    }
+
+
+    private fun swipeRefreshListener() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = true
+            viewModel.updateWeather()
+
+        }
+    }
+
+    private fun setupAppBarListener() {
+        binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+            binding.swipeRefreshLayout.isEnabled = verticalOffset == 0
+        })
+    }
+
 
     private fun setupDetailsView() {
         viewModel.detailsItem.observe(viewLifecycleOwner) {
@@ -59,7 +94,6 @@ class WeatherFragment : Fragment() {
 
     private fun setupLoadingView() {
         viewModel.stateLoading.observe(viewLifecycleOwner) {
-            Log.d("TAG", "setupLoadingView:  $it ")
             with(binding) {
                 if (it == true) {
                     includeHourlyWeather.hourlyRecycler.visibility = View.INVISIBLE
@@ -68,7 +102,10 @@ class WeatherFragment : Fragment() {
                     includeCurrentWeather.temperature.visibility = View.INVISIBLE
                     includeCurrentWeather.descriptionCurrentWeather.visibility = View.INVISIBLE
                     includeCurrentWeather.feelLikeValue.visibility = View.INVISIBLE
-                    collapsingToolbar.title = ""
+                    includeCurrentWeather.feelLikeCelsius.visibility = View.INVISIBLE
+                    includeCurrentWeather.temperatureCelsius.visibility = View.INVISIBLE
+                    binding.swipeRefreshLayout.isRefreshing = true
+                    collapsingToolbar.title = EMPTY
                     includeDetailsWeather.windSpeedValue.visibility = View.INVISIBLE
                     includeDetailsWeather.humidityValue.visibility = View.INVISIBLE
                     includeDetailsWeather.pressureValue.visibility = View.INVISIBLE
@@ -80,9 +117,12 @@ class WeatherFragment : Fragment() {
                     includeDailyWeather.dailyRecycler.visibility = View.VISIBLE
                     includeCurrentWeather.updateTime.visibility = View.VISIBLE
                     includeCurrentWeather.temperature.visibility = View.VISIBLE
+                    binding.swipeRefreshLayout.isRefreshing = false
                     includeCurrentWeather.descriptionCurrentWeather.visibility = View.VISIBLE
                     includeCurrentWeather.feelLikeValue.visibility = View.VISIBLE
                     includeDetailsWeather.windSpeedValue.visibility = View.VISIBLE
+                    includeCurrentWeather.feelLikeCelsius.visibility = View.VISIBLE
+                    includeCurrentWeather.temperatureCelsius.visibility = View.VISIBLE
                     includeDetailsWeather.humidityValue.visibility = View.VISIBLE
                     includeDetailsWeather.pressureValue.visibility = View.VISIBLE
                     includeDetailsWeather.uvValue.visibility = View.VISIBLE
@@ -90,9 +130,7 @@ class WeatherFragment : Fragment() {
                     includeDetailsWeather.sunriseValue.visibility = View.VISIBLE
                 }
             }
-
         }
-
 
 
     }
@@ -120,11 +158,17 @@ class WeatherFragment : Fragment() {
             adapter = dailyListAdapter
             isNestedScrollingEnabled = false
         }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        viewModel.cityNull()
+    }
+
+    companion object {
+        private const val EMPTY = ""
     }
 
 

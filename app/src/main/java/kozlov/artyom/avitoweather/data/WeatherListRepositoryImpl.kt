@@ -55,6 +55,7 @@ class WeatherListRepositoryImpl(application: Application) : WeatherListRepositor
     override suspend fun getCityItem(cityItemId: Int): CityItem {
         val dbModel = cityListDao.getCityItem(cityItemId)
         return mapper.mapDbModelToEntity(dbModel)
+
     }
 
     override suspend fun deleteCityItem(cityItem: CityItem) {

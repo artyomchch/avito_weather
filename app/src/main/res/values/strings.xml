@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Avito weather</string>
-    <!-- TODO: Remove or change this placeholder text -->
-
 
     //Navigation
     <string name="weather">Weather</string>
@@ -41,7 +39,9 @@
     <string name="entry_description">Enter a city or click on the auto-detect button</string>
     <string name="get_current_location">get_current_location</string>
     <string name="invalid_name">Invalid name</string>
-
+    <string name="image_not_found">https://assets9.lottiefiles.com/packages/lf20_zxliqmhr.json</string>
+    <string name="text_not_found">It seems you forgot to add or select a city</string>
+    <string name="city_not_found">This city was not found</string>
 
 
 </resources>

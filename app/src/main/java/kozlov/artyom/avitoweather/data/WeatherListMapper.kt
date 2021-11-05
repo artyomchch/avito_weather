@@ -72,14 +72,6 @@ class WeatherListMapper {
         enable = cityItemDbModel.enable
     )
 
-    fun mapEmptyDbModelToEntity() = CityItem(
-        id = -1,
-        name = "",
-        latitude = 0.0,
-        longitude = 0.0,
-        enable = false
-    )
-
     fun mapListDbModelToListEntity(list: List<CityItemDbModel>) = list.map {
         mapDbModelToEntity(it)
     }

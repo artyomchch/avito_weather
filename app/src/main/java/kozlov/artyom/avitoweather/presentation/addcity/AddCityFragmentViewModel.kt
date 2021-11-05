@@ -3,6 +3,7 @@ package kozlov.artyom.avitoweather.presentation.addcity
 import android.app.Application
 import android.location.Address
 import android.location.Geocoder
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +14,7 @@ import kozlov.artyom.avitoweather.domain.entity.CityItem
 import kozlov.artyom.avitoweather.domain.usecases.AddCityItemUseCase
 import kozlov.artyom.avitoweather.domain.usecases.GetCoordinatesCityUseCase
 import kozlov.artyom.avitoweather.domain.usecases.ResetStateCityUseCase
+import retrofit2.HttpException
 import java.io.IOException
 import java.util.*
 
@@ -31,20 +33,42 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
     val errorInputName: LiveData<Boolean>
         get() = _errorInputName
 
+    private val _errorCityName = MutableLiveData<Boolean>()
+    val errorCityName: LiveData<Boolean>
+        get() = _errorCityName
+
+    private val _stateLoading = MutableLiveData<Boolean>()
+    val stateLoading: LiveData<Boolean>
+        get() = _stateLoading
+
+
     fun resetErrorInputName() {
         _errorInputName.value = false
     }
+
+    fun resetErrorCityName(){
+        _errorCityName.value = false
+    }
+
+
 
     fun addCityItem(inputName: String?) {
         val name = parseName(inputName)
         val fieldsValid = validateInput(name)
         if (fieldsValid) {
             viewModelScope.launch {
-                resetStateCityUseCase.invoke()
-                val coordinates = getCoordinatesCityUseCase.invoke(name)
-                val carItem = CityItem(name, coordinates.lat, coordinates.lon, true)
-                addCityItemUseCase(carItem)
-                // finishWork()
+                _stateLoading.value = true
+                try {
+                    val coordinates = getCoordinatesCityUseCase.invoke(name)
+                    resetStateCityUseCase.invoke()
+                    val carItem = CityItem(name, coordinates.lat, coordinates.lon, true)
+                    addCityItemUseCase(carItem)
+                } catch (e: HttpException) {
+                    if (e.toString() == NOT_FOUND_ERROR) {
+                        _errorCityName.value = true
+                    }
+                }
+                _stateLoading.value = false
             }
         }
 
@@ -74,6 +98,7 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
         }
         if (addresses != null && addresses.isNotEmpty()) {
             locality = addresses[0].locality
+            Log.d("lat lng", "getNameCityFromCoordinates: $locality")
         }
         return locality
     }
@@ -82,10 +107,16 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
     fun getGeolocation() {
         viewModelScope.launch {
             resetStateCityUseCase.invoke()
+
             val carItem = CityItem(getNameCityFromCoordinates(lat, lng), lat, lng, true)
             addCityItemUseCase(carItem)
+
             //finnish
         }
+    }
+
+    companion object {
+        private const val NOT_FOUND_ERROR = "retrofit2.HttpException: HTTP 404 Not Found"
     }
 
 }

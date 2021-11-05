@@ -48,25 +48,22 @@ class WeatherFragmentViewModel(application: Application) : AndroidViewModel(appl
         get() = _stateLoading
 
     var cityItem = getCityListUseCase.invoke()
-    val selectedLiveData = MutableLiveData<List<CityItem>>(emptyList())
+
+    private val selectedLiveData = MutableLiveData<List<CityItem>>(emptyList())
 
 
 
     fun initWeather() {
 
-
-        _stateLoading.value = true
         viewModelScope.launch {
-
             _checkItemFromDb.value = getCityUseCase.invoke(ENABLE)
             if (_itemFromDb.value != _checkItemFromDb.value) {
+                _stateLoading.value = true
                 _itemFromDb.value = _checkItemFromDb.value
                 getWeatherInformation()
             }
             _stateLoading.value = false
         }
-
-
     }
 
     fun cityNull(){

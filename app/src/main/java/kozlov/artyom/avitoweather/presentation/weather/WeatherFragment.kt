@@ -31,13 +31,7 @@ class WeatherFragment : Fragment() {
         viewModel.invokeGetItem()
 
 
-        viewModel.hourlyItems.observe(viewLifecycleOwner) {
-            hourlyListAdapter.submitList(it)
-        }
 
-        viewModel.dailyItems.observe(viewLifecycleOwner) {
-            dailyListAdapter.submitList(it)
-        }
 
         setupLoadingView()
         setupDetailsView()
@@ -52,13 +46,22 @@ class WeatherFragment : Fragment() {
 
 
     private fun observer() {
-        viewModel.cityItem.value
         viewModel.cityItem.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
+                visibleObject(false)
 
             } else {
                 viewModel.initWeather()
+                visibleObject(true)
             }
+        }
+
+        viewModel.hourlyItems.observe(viewLifecycleOwner) {
+            hourlyListAdapter.submitList(it)
+        }
+
+        viewModel.dailyItems.observe(viewLifecycleOwner) {
+            dailyListAdapter.submitList(it)
         }
 
     }
@@ -66,9 +69,9 @@ class WeatherFragment : Fragment() {
 
     private fun swipeRefreshListener() {
         binding.swipeRefreshLayout.setOnRefreshListener {
+
             binding.swipeRefreshLayout.isRefreshing = true
             viewModel.updateWeather()
-
         }
     }
 
@@ -94,42 +97,7 @@ class WeatherFragment : Fragment() {
 
     private fun setupLoadingView() {
         viewModel.stateLoading.observe(viewLifecycleOwner) {
-            with(binding) {
-                if (it == true) {
-                    includeHourlyWeather.hourlyRecycler.visibility = View.INVISIBLE
-                    includeDailyWeather.dailyRecycler.visibility = View.INVISIBLE
-                    includeCurrentWeather.updateTime.visibility = View.INVISIBLE
-                    includeCurrentWeather.temperature.visibility = View.INVISIBLE
-                    includeCurrentWeather.descriptionCurrentWeather.visibility = View.INVISIBLE
-                    includeCurrentWeather.feelLikeValue.visibility = View.INVISIBLE
-                    includeCurrentWeather.feelLikeCelsius.visibility = View.INVISIBLE
-                    includeCurrentWeather.temperatureCelsius.visibility = View.INVISIBLE
-                    binding.swipeRefreshLayout.isRefreshing = true
-                    collapsingToolbar.title = EMPTY
-                    includeDetailsWeather.windSpeedValue.visibility = View.INVISIBLE
-                    includeDetailsWeather.humidityValue.visibility = View.INVISIBLE
-                    includeDetailsWeather.pressureValue.visibility = View.INVISIBLE
-                    includeDetailsWeather.uvValue.visibility = View.INVISIBLE
-                    includeDetailsWeather.sunsetValue.visibility = View.INVISIBLE
-                    includeDetailsWeather.sunriseValue.visibility = View.INVISIBLE
-                } else {
-                    includeHourlyWeather.hourlyRecycler.visibility = View.VISIBLE
-                    includeDailyWeather.dailyRecycler.visibility = View.VISIBLE
-                    includeCurrentWeather.updateTime.visibility = View.VISIBLE
-                    includeCurrentWeather.temperature.visibility = View.VISIBLE
-                    binding.swipeRefreshLayout.isRefreshing = false
-                    includeCurrentWeather.descriptionCurrentWeather.visibility = View.VISIBLE
-                    includeCurrentWeather.feelLikeValue.visibility = View.VISIBLE
-                    includeDetailsWeather.windSpeedValue.visibility = View.VISIBLE
-                    includeCurrentWeather.feelLikeCelsius.visibility = View.VISIBLE
-                    includeCurrentWeather.temperatureCelsius.visibility = View.VISIBLE
-                    includeDetailsWeather.humidityValue.visibility = View.VISIBLE
-                    includeDetailsWeather.pressureValue.visibility = View.VISIBLE
-                    includeDetailsWeather.uvValue.visibility = View.VISIBLE
-                    includeDetailsWeather.sunsetValue.visibility = View.VISIBLE
-                    includeDetailsWeather.sunriseValue.visibility = View.VISIBLE
-                }
-            }
+           visibleWeather(it)
         }
 
 
@@ -159,6 +127,66 @@ class WeatherFragment : Fragment() {
             isNestedScrollingEnabled = false
         }
 
+    }
+
+    private fun visibleWeather(visible: Boolean){
+        with(binding) {
+            if (visible) {
+                includeHourlyWeather.hourlyRecycler.visibility = View.INVISIBLE
+                includeDailyWeather.dailyRecycler.visibility = View.INVISIBLE
+                includeCurrentWeather.updateTime.visibility = View.INVISIBLE
+                includeCurrentWeather.temperature.visibility = View.INVISIBLE
+                includeCurrentWeather.descriptionCurrentWeather.visibility = View.INVISIBLE
+                includeCurrentWeather.feelLikeValue.visibility = View.INVISIBLE
+                includeCurrentWeather.feelLikeCelsius.visibility = View.INVISIBLE
+                includeCurrentWeather.temperatureCelsius.visibility = View.INVISIBLE
+                binding.swipeRefreshLayout.isRefreshing = true
+                collapsingToolbar.title = EMPTY
+                includeDetailsWeather.windSpeedValue.visibility = View.INVISIBLE
+                includeDetailsWeather.humidityValue.visibility = View.INVISIBLE
+                includeDetailsWeather.pressureValue.visibility = View.INVISIBLE
+                includeDetailsWeather.uvValue.visibility = View.INVISIBLE
+                includeDetailsWeather.sunsetValue.visibility = View.INVISIBLE
+                includeDetailsWeather.sunriseValue.visibility = View.INVISIBLE
+            } else {
+                includeHourlyWeather.hourlyRecycler.visibility = View.VISIBLE
+                includeDailyWeather.dailyRecycler.visibility = View.VISIBLE
+                includeCurrentWeather.updateTime.visibility = View.VISIBLE
+                includeCurrentWeather.temperature.visibility = View.VISIBLE
+                binding.swipeRefreshLayout.isRefreshing = false
+                includeCurrentWeather.descriptionCurrentWeather.visibility = View.VISIBLE
+                includeCurrentWeather.feelLikeValue.visibility = View.VISIBLE
+                includeDetailsWeather.windSpeedValue.visibility = View.VISIBLE
+                includeCurrentWeather.feelLikeCelsius.visibility = View.VISIBLE
+                includeCurrentWeather.temperatureCelsius.visibility = View.VISIBLE
+                includeDetailsWeather.humidityValue.visibility = View.VISIBLE
+                includeDetailsWeather.pressureValue.visibility = View.VISIBLE
+                includeDetailsWeather.uvValue.visibility = View.VISIBLE
+                includeDetailsWeather.sunsetValue.visibility = View.VISIBLE
+                includeDetailsWeather.sunriseValue.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun visibleObject(visible: Boolean) {
+        with(binding) {
+            if (!visible) {
+                includeCurrentWeather.currentWeatherLayout.visibility = View.GONE
+                includeDetailsWeather.detailsWeatherLayout.visibility = View.GONE
+                includeHourlyWeather.hourlyWeatherLayout.visibility = View.GONE
+                includeDailyWeather.dailyWeatherLayout.visibility = View.GONE
+                includeNotFound.weatherNotFound.visibility = View.VISIBLE
+                collapsingToolbar.title = EMPTY
+            }
+            else {
+                includeCurrentWeather.currentWeatherLayout.visibility = View.VISIBLE
+                includeDetailsWeather.detailsWeatherLayout.visibility = View.VISIBLE
+                includeHourlyWeather.hourlyWeatherLayout.visibility = View.VISIBLE
+                includeDailyWeather.dailyWeatherLayout.visibility = View.VISIBLE
+                includeNotFound.weatherNotFound.visibility = View.GONE
+            }
+
+        }
     }
 
     override fun onDestroyView() {

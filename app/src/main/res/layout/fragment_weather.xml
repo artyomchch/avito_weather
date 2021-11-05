@@ -58,6 +58,10 @@
                     layout="@layout/current_weather" />
 
                 <include
+                    android:id="@+id/include_not_found"
+                    layout="@layout/weather_not_found"/>
+
+                <include
                     android:id="@+id/include_hourly_weather"
                     layout="@layout/hourly_weather" />
 

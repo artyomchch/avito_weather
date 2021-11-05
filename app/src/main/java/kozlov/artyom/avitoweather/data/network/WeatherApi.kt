@@ -1,6 +1,5 @@
 package kozlov.artyom.avitoweather.data.network
 
-import kozlov.artyom.avitoweather.data.network.pojo.Coordinates
 import kozlov.artyom.avitoweather.data.network.pojo.WeatherCity
 import kozlov.artyom.avitoweather.data.network.pojo.WeatherNetwork
 import retrofit2.http.GET
@@ -30,8 +29,6 @@ interface WeatherApi {
         private const val QUERY_PARAM_UNIT = "units"
         private const val QUERY_PARAM_LANG = "lang"
         private const val QUERY_PARAM_CITY = "q"
-
-
 
 
         private const val API_KEY = "ca5b7f2aa1380827e5840e917c9ecd57"

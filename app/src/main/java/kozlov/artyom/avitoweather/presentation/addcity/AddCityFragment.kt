@@ -7,6 +7,7 @@ import android.location.Location
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,7 @@ class AddCityFragment : Fragment() {
         _binding = FragmentAddCityBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[AddCityFragmentViewModel::class.java]
 
-
+        context?.let { getLocationData(it) }
         setupToolbar()
         addChangeTextListeners()
         saveCity()
@@ -46,7 +47,6 @@ class AddCityFragment : Fragment() {
 
     private fun geolocationButtonClickListener() {
         binding.geolocationButton.setOnClickListener {
-            context?.let { getLocationData(it) }
             viewModel.getGeolocation()
         }
     }
@@ -66,6 +66,22 @@ class AddCityFragment : Fragment() {
             }
             binding.nameTextField.error = message
         }
+
+        viewModel.errorCityName.observe(viewLifecycleOwner) {
+            val notFoundMessage = if (it){
+                getString(R.string.city_not_found)
+            } else {
+                null
+            }
+            binding.nameTextField.error = notFoundMessage
+        }
+
+        viewModel.stateLoading.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.progressLoadingCity.visibility = View.VISIBLE
+            } else
+                binding.progressLoadingCity.visibility = View.GONE
+        }
     }
 
     private fun addChangeTextListeners() {
@@ -74,6 +90,7 @@ class AddCityFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 viewModel.resetErrorInputName()
+                viewModel.resetErrorCityName()
             }
 
             override fun afterTextChanged(p0: Editable?) {}
@@ -82,7 +99,7 @@ class AddCityFragment : Fragment() {
     }
 
     private fun saveCity() {
-        with(binding){
+        with(binding) {
             saveButton.setOnClickListener {
                 viewModel.addCityItem(editNameField.text?.toString())
             }
@@ -104,11 +121,13 @@ class AddCityFragment : Fragment() {
 
             return
         }
+
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     viewModel.lat = location.latitude
                     viewModel.lng = location.longitude
+                    Log.d("lat lng", "getLocationData: ${location.latitude} + ${location.longitude}")
                 }
             }
     }

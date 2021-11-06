@@ -42,6 +42,11 @@
     <string name="image_not_found">https://assets9.lottiefiles.com/packages/lf20_zxliqmhr.json</string>
     <string name="text_not_found">It seems you forgot to add or select a city</string>
     <string name="city_not_found">This city was not found</string>
+    <string name="dialog_city_warning">To display the weather in your city, you need to confirm the permission</string>
+    <string name="hello">Hello</string>
+    <string name="ok">OK</string>
+    <string name="permission_granted">permission granted</string>
+    <string name="permission_refused">permission refused</string>
 
 
 </resources>

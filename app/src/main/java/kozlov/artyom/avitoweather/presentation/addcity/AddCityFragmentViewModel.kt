@@ -98,7 +98,6 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
         }
         if (addresses != null && addresses.isNotEmpty()) {
             locality = addresses[0].locality
-            Log.d("lat lng", "getNameCityFromCoordinates: $locality")
         }
         return locality
     }
@@ -107,10 +106,8 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
     fun getGeolocation() {
         viewModelScope.launch {
             resetStateCityUseCase.invoke()
-
             val carItem = CityItem(getNameCityFromCoordinates(lat, lng), lat, lng, true)
             addCityItemUseCase(carItem)
-
             //finnish
         }
     }

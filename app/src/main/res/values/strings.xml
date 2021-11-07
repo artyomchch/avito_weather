@@ -47,6 +47,8 @@
     <string name="ok">OK</string>
     <string name="permission_granted">permission granted</string>
     <string name="permission_refused">permission refused</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="check_internet">Check your internet connection</string>
 
 
 </resources>

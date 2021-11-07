@@ -21,6 +21,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kozlov.artyom.avitoweather.R
 import kozlov.artyom.avitoweather.databinding.FragmentAddCityBinding
+import kozlov.artyom.avitoweather.util.NetworkEnable
 import kozlov.artyom.avitoweather.util.OnChangeNavigationListener
 
 class AddCityFragment : Fragment() {
@@ -40,12 +41,17 @@ class AddCityFragment : Fragment() {
         _binding = FragmentAddCityBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[AddCityFragmentViewModel::class.java]
 
-        checkForPermission(Manifest.permission.ACCESS_FINE_LOCATION,  FINE_LOCATION_REQUEST, false)
-        checkForPermission(Manifest.permission.ACCESS_COARSE_LOCATION,  COARSE_LOCATION_REQUEST, false)
+        if (NetworkEnable.isNetworkAvailable(requireContext())) {
+            saveCity()
+            binding.entryDesc.text = getString(R.string.entry_description)
+        } else
+            binding.entryDesc.text = getString(R.string.check_internet)
+
         getLocationData(requireContext())
+        checkForPermission(Manifest.permission.ACCESS_FINE_LOCATION, FINE_LOCATION_REQUEST, false)
+        checkForPermission(Manifest.permission.ACCESS_COARSE_LOCATION, COARSE_LOCATION_REQUEST, false)
         setupToolbar()
         addChangeTextListeners()
-        saveCity()
         observeViewModel()
         geolocationButtonClickListener()
 
@@ -64,8 +70,8 @@ class AddCityFragment : Fragment() {
 
     private fun geolocationButtonClickListener() {
         binding.geolocationButton.setOnClickListener {
-            checkForPermission(Manifest.permission.ACCESS_FINE_LOCATION,  FINE_LOCATION_REQUEST, true)
-            checkForPermission(Manifest.permission.ACCESS_COARSE_LOCATION,  COARSE_LOCATION_REQUEST, false)
+            checkForPermission(Manifest.permission.ACCESS_FINE_LOCATION, FINE_LOCATION_REQUEST, true)
+            checkForPermission(Manifest.permission.ACCESS_COARSE_LOCATION, COARSE_LOCATION_REQUEST, false)
 
         }
     }
@@ -121,8 +127,8 @@ class AddCityFragment : Fragment() {
         with(binding) {
             saveButton.setOnClickListener {
                 viewModel.addCityItem(editNameField.text?.toString())
-                viewModel.validCity.observe(viewLifecycleOwner){
-                    if (it){
+                viewModel.validCity.observe(viewLifecycleOwner) {
+                    if (it) {
                         onChangeNavigationListener.goToWeatherScreen()
                     }
                 }
@@ -139,7 +145,9 @@ class AddCityFragment : Fragment() {
                     onChangeNavigationListener.goToWeatherScreen()
                 }
             }
-            shouldShowRequestPermissionRationale(permission) -> showDialog(permission, requestCode)
+            shouldShowRequestPermissionRationale(permission) ->
+                if (requestCode == FINE_LOCATION_REQUEST)
+                    showDialog(permission, requestCode)
 
             else -> ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), requestCode)
         }
@@ -197,10 +205,6 @@ class AddCityFragment : Fragment() {
                 }
             }
     }
-
-
-
-
 
 
     override fun onDestroyView() {

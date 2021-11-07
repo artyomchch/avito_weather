@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.AppBarLayout
+import kozlov.artyom.avitoweather.R
 import kozlov.artyom.avitoweather.databinding.FragmentWeatherBinding
+import kozlov.artyom.avitoweather.util.NetworkEnable
 
 
 class WeatherFragment : Fragment() {
@@ -28,40 +30,45 @@ class WeatherFragment : Fragment() {
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[WeatherFragmentViewModel::class.java]
 
-        viewModel.invokeGetItem()
 
-
-
-
+        launch()
         setupLoadingView()
         setupDetailsView()
         setupRecyclerView()
         setupCurrentView()
         setupAppBarListener()
         swipeRefreshListener()
-        observer()
+
+
 
         return binding.root
     }
 
+    private fun launch() {
+        if (NetworkEnable.isNetworkAvailable(requireContext())){
+            viewModel.invokeGetItem()
+            observer()
+        }
+        else{
+            visibleObject(false)
+            binding.includeNotFound.warningText.text = getString(R.string.no_internet)
+        }
+    }
 
     private fun observer() {
         viewModel.cityItem.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 visibleObject(false)
-
-            } else {
+            }
+            else {
                 viewModel.initWeather()
-
-               // visibleObject(true)
             }
         }
 
-        viewModel.enableItems.observe(viewLifecycleOwner){
-            if (it){
+        viewModel.enableItems.observe(viewLifecycleOwner) {
+            if (it) {
                 visibleObject(true)
-            }
-            else
+            } else
                 visibleObject(false)
         }
 
@@ -106,10 +113,8 @@ class WeatherFragment : Fragment() {
 
     private fun setupLoadingView() {
         viewModel.stateLoading.observe(viewLifecycleOwner) {
-           visibleWeather(it)
+            visibleWeather(it)
         }
-
-
     }
 
     private fun setupCurrentView() {
@@ -138,7 +143,7 @@ class WeatherFragment : Fragment() {
 
     }
 
-    private fun visibleWeather(visible: Boolean){
+    private fun visibleWeather(visible: Boolean) {
         with(binding) {
             if (visible) {
                 includeHourlyWeather.hourlyRecycler.visibility = View.INVISIBLE
@@ -186,8 +191,7 @@ class WeatherFragment : Fragment() {
                 includeDailyWeather.dailyWeatherLayout.visibility = View.GONE
                 includeNotFound.weatherNotFound.visibility = View.VISIBLE
                 collapsingToolbar.title = EMPTY
-            }
-            else {
+            } else {
                 includeCurrentWeather.currentWeatherLayout.visibility = View.VISIBLE
                 includeDetailsWeather.detailsWeatherLayout.visibility = View.VISIBLE
                 includeHourlyWeather.hourlyWeatherLayout.visibility = View.VISIBLE
@@ -197,6 +201,7 @@ class WeatherFragment : Fragment() {
 
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

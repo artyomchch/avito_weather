@@ -35,6 +35,7 @@ class ChooseCityFragment : Fragment() {
         }
 
 
+
         setupRecyclerView()
         setupToolbar()
         setupClickListener()
@@ -52,6 +53,7 @@ class ChooseCityFragment : Fragment() {
             throw RuntimeException("Activity must implement OnChangeNavigationListener")
         }
     }
+
 
     private fun setupRecyclerView() {
         cityListAdapter = CityListAdapter()

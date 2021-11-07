@@ -3,7 +3,6 @@ package kozlov.artyom.avitoweather.presentation.addcity
 import android.app.Application
 import android.location.Address
 import android.location.Geocoder
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -50,10 +49,9 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
         _errorInputName.value = false
     }
 
-    fun resetErrorCityName(){
+    fun resetErrorCityName() {
         _errorCityName.value = false
     }
-
 
 
     fun addCityItem(inputName: String?) {
@@ -96,7 +94,7 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
 
     private fun getNameCityFromCoordinates(lat: Double, lng: Double): String {
         val gcd = Geocoder(getApplication(), Locale.getDefault())
-        var locality = ""
+        var locality = "Not found"
         var addresses: List<Address>? = null
         try {
             addresses = gcd.getFromLocation(lat, lng, 1)
@@ -113,7 +111,8 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
     fun getGeolocation() {
         viewModelScope.launch {
             resetStateCityUseCase.invoke()
-            val carItem = CityItem(getNameCityFromCoordinates(lat, lng), lat, lng, true)
+            val city = getNameCityFromCoordinates(lat, lng)
+            val carItem = CityItem(city, lat, lng, true)
             addCityItemUseCase(carItem)
             //finnish
         }

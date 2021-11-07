@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 import kozlov.artyom.avitoweather.data.WeatherListRepositoryImpl
 import kozlov.artyom.avitoweather.domain.entity.*
 import kozlov.artyom.avitoweather.domain.usecases.*
-import java.lang.NullPointerException
 
 
 class WeatherFragmentViewModel(application: Application) : AndroidViewModel(application) {
@@ -57,7 +56,6 @@ class WeatherFragmentViewModel(application: Application) : AndroidViewModel(appl
     private val selectedLiveData = MutableLiveData<List<CityItem>>(emptyList())
 
 
-
     fun initWeather() {
         viewModelScope.launch {
             try {
@@ -69,19 +67,17 @@ class WeatherFragmentViewModel(application: Application) : AndroidViewModel(appl
                     getWeatherInformation()
                 }
                 _stateLoading.value = false
-            }
-            catch (e: NullPointerException){
+            } catch (e: NullPointerException) {
                 _enableItems.value = false
             }
-
         }
     }
 
-    fun cityNull(){
+    fun cityNull() {
         cityItem = selectedLiveData
     }
 
-    fun invokeGetItem(){
+    fun invokeGetItem() {
         cityItem = getCityListUseCase.invoke()
     }
 

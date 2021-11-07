@@ -21,6 +21,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kozlov.artyom.avitoweather.R
 import kozlov.artyom.avitoweather.databinding.FragmentAddCityBinding
+import kozlov.artyom.avitoweather.util.OnChangeNavigationListener
 
 class AddCityFragment : Fragment() {
 
@@ -30,7 +31,7 @@ class AddCityFragment : Fragment() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var viewModel: AddCityFragmentViewModel
-
+    private lateinit var onChangeNavigationListener: OnChangeNavigationListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +40,12 @@ class AddCityFragment : Fragment() {
         _binding = FragmentAddCityBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[AddCityFragmentViewModel::class.java]
 
+        checkForPermission(Manifest.permission.ACCESS_FINE_LOCATION,  FINE_LOCATION_REQUEST, false)
+        checkForPermission(Manifest.permission.ACCESS_COARSE_LOCATION,  COARSE_LOCATION_REQUEST, false)
         getLocationData(requireContext())
         setupToolbar()
         addChangeTextListeners()
         saveCity()
-        checkForPermission(Manifest.permission.ACCESS_FINE_LOCATION, FINE_LOCATION_NAME, FINE_LOCATION_REQUEST, false)
-        checkForPermission(Manifest.permission.ACCESS_COARSE_LOCATION, COARSE_LOCATION_NAME, COARSE_LOCATION_REQUEST, false)
         observeViewModel()
         geolocationButtonClickListener()
 
@@ -52,10 +53,19 @@ class AddCityFragment : Fragment() {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnChangeNavigationListener) {
+            onChangeNavigationListener = context
+        } else {
+            throw RuntimeException("Activity must implement OnChangeNavigationListener")
+        }
+    }
+
     private fun geolocationButtonClickListener() {
         binding.geolocationButton.setOnClickListener {
-            checkForPermission(Manifest.permission.ACCESS_FINE_LOCATION, FINE_LOCATION_NAME, FINE_LOCATION_REQUEST, true)
-            checkForPermission(Manifest.permission.ACCESS_COARSE_LOCATION, COARSE_LOCATION_NAME, COARSE_LOCATION_REQUEST, false)
+            checkForPermission(Manifest.permission.ACCESS_FINE_LOCATION,  FINE_LOCATION_REQUEST, true)
+            checkForPermission(Manifest.permission.ACCESS_COARSE_LOCATION,  COARSE_LOCATION_REQUEST, false)
 
         }
     }
@@ -111,19 +121,23 @@ class AddCityFragment : Fragment() {
         with(binding) {
             saveButton.setOnClickListener {
                 viewModel.addCityItem(editNameField.text?.toString())
+                viewModel.validCity.observe(viewLifecycleOwner){
+                    if (it){
+                        onChangeNavigationListener.goToWeatherScreen()
+                    }
+                }
             }
         }
     }
 
 
-    private fun checkForPermission(permission: String, name: String, requestCode: Int, allow: Boolean) {
+    private fun checkForPermission(permission: String, requestCode: Int, allow: Boolean) {
         when {
             ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED -> {
-                Toast.makeText(requireContext(), "$name ${getString(R.string.permission_granted)}", Toast.LENGTH_SHORT).show()
                 if (allow) {
                     viewModel.getGeolocation()
+                    onChangeNavigationListener.goToWeatherScreen()
                 }
-
             }
             shouldShowRequestPermissionRationale(permission) -> showDialog(permission, requestCode)
 
@@ -135,8 +149,6 @@ class AddCityFragment : Fragment() {
         fun innerCheck(name: String) {
             if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(requireContext(), "$name ${getString(R.string.permission_refused)}", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "$name ${getString(R.string.permission_granted)}", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -185,6 +197,10 @@ class AddCityFragment : Fragment() {
                 }
             }
     }
+
+
+
+
 
 
     override fun onDestroyView() {

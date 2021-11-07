@@ -52,8 +52,17 @@ class WeatherFragment : Fragment() {
 
             } else {
                 viewModel.initWeather()
+
+               // visibleObject(true)
+            }
+        }
+
+        viewModel.enableItems.observe(viewLifecycleOwner){
+            if (it){
                 visibleObject(true)
             }
+            else
+                visibleObject(false)
         }
 
         viewModel.hourlyItems.observe(viewLifecycleOwner) {

@@ -2,13 +2,13 @@ package kozlov.artyom.avitoweather
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import kozlov.artyom.avitoweather.databinding.WeatherActivityBinding
+import kozlov.artyom.avitoweather.util.OnChangeNavigationListener
 
-class WeatherActivity : AppCompatActivity() {
+class WeatherActivity : AppCompatActivity(), OnChangeNavigationListener {
 
 
     private val binding: WeatherActivityBinding by lazy {
@@ -22,7 +22,11 @@ class WeatherActivity : AppCompatActivity() {
 
         val navHost = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         navController = navHost.navController
-        binding.bottomNavigationMenu.setupWithNavController(navController);
+        binding.bottomNavigationMenu.setupWithNavController(navController)
+    }
+
+    override fun goToWeatherScreen() {
+        navController.navigate(R.id.current_navigation_fragment)
     }
 
 }

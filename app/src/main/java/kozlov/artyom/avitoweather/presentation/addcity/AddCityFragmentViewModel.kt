@@ -41,6 +41,10 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
     val stateLoading: LiveData<Boolean>
         get() = _stateLoading
 
+    private val _validCity = MutableLiveData<Boolean>()
+    val validCity: LiveData<Boolean>
+        get() = _validCity
+
 
     fun resetErrorInputName() {
         _errorInputName.value = false
@@ -55,6 +59,7 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
     fun addCityItem(inputName: String?) {
         val name = parseName(inputName)
         val fieldsValid = validateInput(name)
+        _validCity.value = false
         if (fieldsValid) {
             viewModelScope.launch {
                 _stateLoading.value = true
@@ -63,11 +68,13 @@ class AddCityFragmentViewModel(application: Application) : AndroidViewModel(appl
                     resetStateCityUseCase.invoke()
                     val carItem = CityItem(name, coordinates.lat, coordinates.lon, true)
                     addCityItemUseCase(carItem)
+                    _validCity.value = true
                 } catch (e: HttpException) {
                     if (e.toString() == NOT_FOUND_ERROR) {
                         _errorCityName.value = true
                     }
                 }
+                _validCity.value = false
                 _stateLoading.value = false
             }
         }

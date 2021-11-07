@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import kozlov.artyom.avitoweather.data.WeatherListRepositoryImpl
 import kozlov.artyom.avitoweather.domain.entity.*
 import kozlov.artyom.avitoweather.domain.usecases.*
+import java.lang.NullPointerException
 
 
 class WeatherFragmentViewModel(application: Application) : AndroidViewModel(application) {
@@ -47,6 +48,10 @@ class WeatherFragmentViewModel(application: Application) : AndroidViewModel(appl
     val stateLoading: LiveData<Boolean>
         get() = _stateLoading
 
+    private val _enableItems = MutableLiveData<Boolean>()
+    val enableItems: LiveData<Boolean>
+        get() = _enableItems
+
     var cityItem = getCityListUseCase.invoke()
 
     private val selectedLiveData = MutableLiveData<List<CityItem>>(emptyList())
@@ -54,15 +59,21 @@ class WeatherFragmentViewModel(application: Application) : AndroidViewModel(appl
 
 
     fun initWeather() {
-
         viewModelScope.launch {
-            _checkItemFromDb.value = getCityUseCase.invoke(ENABLE)
-            if (_itemFromDb.value != _checkItemFromDb.value) {
-                _stateLoading.value = true
-                _itemFromDb.value = _checkItemFromDb.value
-                getWeatherInformation()
+            try {
+                _enableItems.value = true
+                _checkItemFromDb.value = getCityUseCase.invoke(ENABLE)
+                if (_itemFromDb.value != _checkItemFromDb.value) {
+                    _stateLoading.value = true
+                    _itemFromDb.value = _checkItemFromDb.value
+                    getWeatherInformation()
+                }
+                _stateLoading.value = false
             }
-            _stateLoading.value = false
+            catch (e: NullPointerException){
+                _enableItems.value = false
+            }
+
         }
     }
 

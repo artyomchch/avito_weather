@@ -1,16 +1,17 @@
 package kozlov.artyom.avitoweather.presentation.choosecity
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import kozlov.artyom.avitoweather.R
 import kozlov.artyom.avitoweather.databinding.FragmentChooseCityBinding
+import kozlov.artyom.avitoweather.util.OnChangeNavigationListener
 
 class ChooseCityFragment : Fragment() {
 
@@ -20,6 +21,7 @@ class ChooseCityFragment : Fragment() {
 
     private lateinit var cityListAdapter: CityListAdapter
     private lateinit var viewModel: ChooseCityFragmentViewModel
+    private lateinit var onChangeNavigationListener: OnChangeNavigationListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +44,15 @@ class ChooseCityFragment : Fragment() {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnChangeNavigationListener) {
+            onChangeNavigationListener = context
+        } else {
+            throw RuntimeException("Activity must implement OnChangeNavigationListener")
+        }
+    }
+
     private fun setupRecyclerView() {
         cityListAdapter = CityListAdapter()
         binding.cityRecycler.adapter = cityListAdapter
@@ -56,6 +67,7 @@ class ChooseCityFragment : Fragment() {
     private fun setupClickListener() {
         cityListAdapter.onCityItemClickListener = {
             viewModel.changeEnableState(it)
+            onChangeNavigationListener.goToWeatherScreen()
         }
     }
 
